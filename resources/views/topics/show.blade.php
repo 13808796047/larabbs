@@ -27,7 +27,7 @@
         </div>
 
         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 topic-content">
-            <div class="card ">
+            <div class="card">
                 <div class="card-body">
                     <h1 class="text-center mt-3 mb-3">
                         {{ $topic->title }}
@@ -43,6 +43,7 @@
                     <div class="topic-body mt-4 mb-4">
                         {!! $topic->body !!}
                     </div>
+
                     @can('update', $topic)
                         <div class="operate">
                             <hr>
@@ -61,7 +62,18 @@
                             </form>
                         </div>
                     @endcan
+
                 </div>
             </div>
+
+            {{-- 用户回复列表 --}}
+            <div class="card topic-reply mt-4">
+                <div class="card-body">
+                    @include('topics._reply_box', ['topic' => $topic])
+                    @include('topics._reply_list', ['replies' => $topic->replies()->with('user')->get()])
+                </div>
+            </div>
+
         </div>
+    </div>
 @stop
