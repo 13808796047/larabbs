@@ -13,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if (app()->isLocal()) {
+            $this->app->register(\VIACreative\SudoSu\ServiceProvider::class);
+        }
     }
 
     /**
@@ -22,11 +24,15 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot()
-	{
-		\App\Models\User::observe(\App\Observers\UserObserver::class);
-		\App\Models\Reply::observe(\App\Observers\ReplyObserver::class);
-		\App\Models\Topic::observe(\App\Observers\TopicObserver::class);
+    {
+        \App\Models\User::observe(\App\Observers\UserObserver::class);
+        \App\Models\Reply::observe(\App\Observers\ReplyObserver::class);
+        \App\Models\Topic::observe(\App\Observers\TopicObserver::class);
 
-        //
+        //站长才可以访问Horizon
+        \Horizon::auth(function ($request) {
+            // 是否是站长
+            return \Auth::user()->hasRole('Founder');
+        });
     }
 }
