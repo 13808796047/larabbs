@@ -10,7 +10,7 @@ class ImageUploadHandler
     //只允许以下后缀名的图片文件上传
     protected $allowed_ext = ['png', 'jpg', 'gif', 'jpeg'];
 
-    public function save($file, $folder, $file_prefix, $max_with = false)
+    public function save($file, $folder, $file_prefix, $max_width = false)
     {
         //构建存储的文件夹规则,值如：uploads/images/avatars/201909/21/
         //文件夹切割能让查找效率更高。
