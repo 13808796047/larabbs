@@ -11,6 +11,7 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
+    //回复通知数
     public function TopicNotify($instance)
     {
         //如果要通知的人是当前用户，就不必通知了
@@ -22,6 +23,13 @@ class User extends Authenticatable implements MustVerifyEmail
             $this->increment('notification_count');
         }
         $this->notify($instance);
+    }
+
+    public function markAsRead()
+    {
+        $this->notification_count = 0;
+        $this->save();
+        $this->unreadNotifications->markAsRead();
     }
 
     protected $fillable = [

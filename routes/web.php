@@ -42,4 +42,7 @@ Route::get('topics/{topic}/{slug?}', 'TopicsController@show')->name('topics.show
 Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
 //编辑器图片上传
 Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload_image');
+//回复
 Route::resource('replies', 'RepliesController', ['only' => ['store', 'destroy']]);
+//通知列表
+Route::resource('notifications', 'NotificationsController', ['only' => ['index']]);
