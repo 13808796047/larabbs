@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'TopicsController@root')->name('root');
+Route::get('/', 'TopicsController@index')->name('topics.index');
 
 //Auth::routes();
 // 用户身份验证相关的路由
