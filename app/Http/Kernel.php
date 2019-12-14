@@ -41,6 +41,8 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            //后台设置 Accept:application/json 请求头的中间件
+            \App\Http\Middleware\AcceptHeader::class,
             'throttle:60,1',
             'bindings',
         ],
