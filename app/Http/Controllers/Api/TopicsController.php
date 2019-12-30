@@ -5,10 +5,33 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\Api\TopicRequest;
 use App\Http\Resources\TopicResource;
 use App\Models\Topic;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TopicsController extends Controller
 {
+    public function index(Request $request, Topic $topic)
+    {
+//        $query = $topic->query();
+//        if ($categoryId = $request->category_id) {
+//            $query->where('category_id', $categoryId);
+//        }
+//        $topics = $query
+//            ->with('user', 'category')
+//            ->withOrder($request->order)
+//            ->paginate();
+        $topics = QueryBuilder::for(Topic::class)
+            ->allowedIncludes('user', 'category')
+            ->allowedFilters([
+                'title',
+                AllowedFilter::exact('category_id'),
+                AllowedFilter::scope('withOrder')->default('recentReplied'),
+            ])->paginate();
+        return TopicResource::collection($topics);
+    }
+
     public function store(TopicRequest $request, Topic $topic)
     {
         $topic->fill($request->all());
@@ -29,5 +52,20 @@ class TopicsController extends Controller
         $this->authorize('destroy', $topic);
         $topic->delete();
         return response(null, 204);
+    }
+
+    //查询某个人发布的话题
+    public function userIndex(Request $request, User $user)
+    {
+        $query = $user->topics()->getQuery();
+        $topics = QueryBuilder::for($query)
+            ->allowedIncludes('user', 'category')
+            ->allowedFilters([
+                'title',
+                AllowedFilter::exact('category_id'),
+                AllowedFilter::scope('withOrder')->default('recentReplied'),
+            ])
+            ->paginate();
+        return TopicResource::collection($topics);
     }
 }
