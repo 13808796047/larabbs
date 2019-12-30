@@ -2,9 +2,20 @@
 
 namespace App\Models;
 
+use Doctrine\DBAL\Query\QueryBuilder;
+
 class Topic extends Model
 {
     protected $fillable = ['title', 'body', 'category_id', 'excerpt', 'slug'];
+
+    //重写路由模型
+    public function resolveRouteBinding($value)
+    {
+        return QueryBuilder::for(self::class)
+            ->allowedIncludes('user', 'category')
+            ->where($this->getRouteKeyName(), $value)
+            ->first();
+    }
 
     public function category()
     {
