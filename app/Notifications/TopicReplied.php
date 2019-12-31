@@ -11,6 +11,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 class TopicReplied extends Notification implements ShouldQueue
 {
     use Queueable;
+    protected $reply;
 
     public function __construct(Reply $reply)
     {

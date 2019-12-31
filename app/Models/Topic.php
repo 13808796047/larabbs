@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use Doctrine\DBAL\Query\QueryBuilder;
+
+use Spatie\QueryBuilder\QueryBuilder;
 
 class Topic extends Model
 {
@@ -58,7 +59,7 @@ class Topic extends Model
     //路由转换
     public function link($params = [])
     {
-        return route('topics.show', array_merge([$this->id, $this->slug], $params));
+        return route('topics.show', array_merge([$this->id, $this->slug], (array)$params));
     }
 
     public function replies()

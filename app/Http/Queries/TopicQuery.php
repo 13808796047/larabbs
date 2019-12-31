@@ -4,6 +4,7 @@ namespace App\Http\Queries;
 
 use App\Models\Topic;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class TopicQuery extends QueryBuilder
