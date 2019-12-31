@@ -50,9 +50,9 @@ class AuthorizationsController extends Controller
                 }
                 break;
         }
-        $token = auth('api')->login($user);
+        $result = $this->getBearerTokenByUser($user, '1', false);
 
-        return $this->respondWithToken($token)->setStatusCode(201);
+        return response()->json($result)->setStatusCode(201);
     }
 
 //    public function store(AuthorizationRequest $request)
