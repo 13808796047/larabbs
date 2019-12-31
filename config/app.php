@@ -177,6 +177,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         //发送短信的provider
         App\Providers\EasySmsServiceProvider::class,
+        App\Providers\JpushServiceProvider::class,
     ],
 
     /*
